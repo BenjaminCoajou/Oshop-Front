@@ -5,6 +5,17 @@ require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/../controllers/MainController.class.php";
 require_once __DIR__ . "/../controllers/CatalogController.class.php";
 
+// Chargement du model
+require __DIR__ . '/../models/Product.class.php';
+
+//  Utilitaire
+require __DIR__ . '/../utils/Database.class.php';
+
+// récupération du pdo pour manipuler la BDD
+//$pdo = Database::getPDO();
+
+//$statement = $pdo->query('select name from product');
+
 
 // J'instancie mon Altorouter
 $router = new AltoRouter();//

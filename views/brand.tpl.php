@@ -1,1 +1,1 @@
-<h1>marque</h1>
+<h1>marque pour l'id <?= $viewVars['brandId']?></h1>

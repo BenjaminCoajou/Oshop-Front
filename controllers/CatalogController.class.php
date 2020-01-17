@@ -2,20 +2,47 @@
 
 class CatalogController{
 
-    public function category($params = []){
-        $this->show('category');
+    public function category($params){
+        $category = new Category();
+        $categoryId = $params['categoryId'];
+
+        $categoryToDisplay = $category->find($categoryId);
+        $this->show('category',
+         ["categoryId" => $categoryId,
+         "category" => $categoryToDisplay]);
     }
 
-    public function product($params = []){
-              $this->show('product', ["id" => $params]);
+    public function product($params){
+        $product = new Product();
+        $productId = $params['productId'];
+
+        $productToDisplay = $product->find($productId);
+        
+        $this->show('product', 
+        ["productId" => $productId,
+         "product" => $productToDisplay]);
      } 
 
      public function type($params){
-       $this->show('type', ["id" => $params]);
+        $typeId = $params['typeId'];
+        $type = new Type ();
+
+        $typeToDisplay = $type->find($typeId);
+
+       $this->show('type',
+       ["typeId" => $typeId,
+        "type" => $typeToDisplay]);
      }
 
      public function brand($params){
-       $this->show('brand', ["id" => $params]);
+        $brand = new Brand();
+        $brandId = $params['brandId'];
+
+        $brandToDisplay = $brand->find($brandId);
+
+       $this->show('brand',
+       ["brandId" => $brandId,
+        "brand" => $brandToDisplay]);
      }
 
 

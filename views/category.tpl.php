@@ -1,1 +1,1 @@
-<h1>catégorie</h1>
+<h1>catégorie pour l'id <?= $viewVars['categoryId']?></h1>

@@ -47,7 +47,7 @@
         <div id="navbarCollapse" class="collapse navbar-collapse">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a href="home" class="nav-link active">Home</a>
+              <a href="<?= $_SERVER['BASE_URI']?>/" class="nav-link active">Home</a>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">Catégories</a>
