@@ -3,7 +3,7 @@
       <!-- Breadcrumbs -->
       <ol class="breadcrumb justify-content-center">
         <li class="breadcrumb-item"><a href="<?= $_SERVER['BASE_URI']?>/">Home</a></li>
-        <li class="breadcrumb-item active"><?=$viewVars['product']->getCategory_id()?></li>
+        <li class="breadcrumb-item active"><?=$viewVars['product']->getCategory_name()?></li>
       </ol>
     </div>
   </section>
@@ -23,7 +23,7 @@
         <div class="col-lg-6 col-sm-12">
           <div class="mb-3">
             <h3 class="h3 text-uppercase mb-1"><?=$viewVars['product']->getName()?></h3>
-            <div class="text-muted">by <em><?=$viewVars['product']->getRate()?></em></div>
+            <div class="text-muted">by <em><?=$viewVars['product']->getBrand_name()?></em></div>
             <div>
             <?php for ($i = 0 ; $i < $viewVars['product']->getRate(); $i++) : ?>
               <i class="fa fa-star"></i>

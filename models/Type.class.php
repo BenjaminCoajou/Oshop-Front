@@ -1,54 +1,16 @@
 <?php
 
-class Type{
-    private $id;
-    private $name;
+class Type extends CoreModel{
+    
     private $footer_order;
-    private $created_at;
-    private $update_at;
+    
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     *
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-    }
-
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the value of name
-     *
-     *
-     */ 
-    public function setName($name)
-    {
-        $this->name = $name;
-
-    }
+    
 
     /**
      * Get the value of footer_order
      */ 
-    public function getFooter_order()
+    public function getFooterOrder()
     {
         return $this->footer_order;
     }
@@ -58,30 +20,13 @@ class Type{
      *
      *
      */ 
-    public function setFooter_order($footer_order)
+    public function setFooterOrder($footer_order)
     {
         $this->footer_order = $footer_order;
 
     }
 
-    /**
-     * Get the value of created_at
-     */ 
-    public function getCreated_at()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set the value of created_at
-     *
-     *
-     */ 
-    public function setCreated_at($created_at)
-    {
-        $this->created_at = $created_at;
-
-    }
+    
 
     /**
      * Get the value of update_at
@@ -102,8 +47,8 @@ class Type{
 
     }
 
-    public function find($id){
-        $sql = 'SELECT * FROM `type` WHERE `id` = ' . $id;
+    public function find($typeId){
+        $sql = 'SELECT * FROM `type` WHERE `id` = ' . $typeId;
 
         // récupération de la BDD
         $pdo = Database::getPDO();
@@ -133,4 +78,18 @@ class Type{
         return $types;
     }
 
+    public function findAllForFooter() {
+        $sql = "SELECT * 
+        FROM `type` 
+        WHERE `footer_order` > 0 ORDER_BY `footer_order`
+        ";
+
+        $pdo = Database::getPDO();
+
+        $statement = $pdo->query($sql);
+
+        $types = $statement->fetchAll(PDO::FETCH_CLASS, 'Type');
+
+        return $types;
+    }
 }

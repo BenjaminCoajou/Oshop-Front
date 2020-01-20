@@ -6,6 +6,7 @@ require_once __DIR__ . "/../controllers/MainController.class.php";
 require_once __DIR__ . "/../controllers/CatalogController.class.php";
 
 // Chargement du model
+require __DIR__ . '/../models/CoreModel.class.php';
 require __DIR__ . '/../models/Product.class.php';
 
 //  Utilitaire
@@ -64,7 +65,12 @@ $router->map(
     'route_brand_by_id'
 );
 
-
+$router->map(
+    'GET',
+    '/test/',
+    ['method'=>'test', 'controller' => 'MainController'],
+    'test'
+);
 
 
 

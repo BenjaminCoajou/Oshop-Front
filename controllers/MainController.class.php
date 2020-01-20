@@ -22,6 +22,14 @@ public function error404() {
   exit();
 }
 
+public function test(){
+
+  $productModel = new Product();
+  $product = $productModel-> findAllByType(2);
+
+  dump($product);
+}
+
 
 // Elle affiche le template demandé.
 // Pour choisir le template à afficher elle prend un arguement $viewName (string) et un argument $viewVars (array)

@@ -1,54 +1,15 @@
 <?php
 
-class Brand {
-    private $id;
-    private $name;
+class Brand extends CoreModel{
+   
     private $footer_order;
-    private $created_at;
-    private $update_at;
+    
 
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     *
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;
-
-    }
-
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the value of name
-     *
-     *
-     */ 
-    public function setName($name)
-    {
-        $this->name = $name;
-
-    }
-
+   
     /**
      * Get the value of footer_order
      */ 
-    public function getFooter_order()
+    public function getFooterOrder()
     {
         return $this->footer_order;
     }
@@ -58,57 +19,21 @@ class Brand {
      *
      *
      */ 
-    public function setFooter_order($footer_order)
+    public function setFooterOrder($footer_order)
     {
         $this->footer_order = $footer_order;
 
     }
 
-    /**
-     * Get the value of created_at
-     */ 
-    public function getCreated_at()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set the value of created_at
-     *
-     *
-     */ 
-    public function setCreated_at($created_at)
-    {
-        $this->created_at = $created_at;
-
-    }
-
-    /**
-     * Get the value of update_at
-     */ 
-    public function getUpdate_at()
-    {
-        return $this->update_at;
-    }
-
-    /**
-     * Set the value of update_at
-     *
-     *
-     */ 
-    public function setUpdate_at($update_at)
-    {
-        $this->update_at = $update_at;
-
-    }
+    
 
      /**
      * Récupère une marque dans la base de données
      *par son id
      * 
      */ 
-    public function find($id){
-        $sql = 'SELECT * FROM `brand` WHERE `id` = ' . $id;
+    public function find($brandId){
+        $sql = 'SELECT * FROM `brand` WHERE `id` = ' . $brandId;
 
         // récupération de la BDD
         $pdo = Database::getPDO();
@@ -134,6 +59,21 @@ class Brand {
         $brands = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Brand');
         
         // Renvoie le tableau de Products
+        return $brands;
+    }
+
+    public function findAllForFooter() {
+        $sql = "SELECT * 
+        FROM `brand` 
+        WHERE `footer_order` > 0 ORDER_BY `footer_order`
+        ";
+
+        $pdo = Database::getPDO();
+
+        $statement = $pdo->query($sql);
+
+        $brands = $statement->fetchAll(PDO::FETCH_CLASS, 'Brand');
+
         return $brands;
     }
 

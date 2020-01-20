@@ -1,60 +1,20 @@
 <?php
 
-class Product {
+class Product extends CoreModel {
 
-    private $id;
-    private $name;
     private $description;
     private $picture;
     private $price;
     private $rate;
     private $status;
-    private $created_at;
-    private $updated_at;
     private $brand_id;
     private $category_id;
     private $type_id;
+    private $brand_name;
+    private $type_name;
+    private $category_name;
    
 
-
-
-
-
-    /**
-     * Get the value of id
-     */ 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     *
-     * 
-     */ 
-    public function setId($id)
-    {
-        $this->id = $id;        
-    }
-
-    /**
-     * Get the value of name
-     */ 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the value of name
-     *
-     * 
-     */ 
-    public function setName($name)
-    {
-        $this->name = $name;        
-    }
 
     /**
      * Get the value of description
@@ -148,41 +108,7 @@ class Product {
         $this->status = $status;        
     }
 
-    /**
-     * Get the value of created_at
-     */ 
-    public function getCreated_at()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set the value of created_at
-     *
-     * 
-     */ 
-    public function setCreated_at($created_at)
-    {
-        $this->created_at = $created_at;        
-    }
-
-    /**
-     * Get the value of updated_at
-     */ 
-    public function getUpdated_at()
-    {
-        return $this->updated_at;
-    }
-
-    /**
-     * Set the value of updated_at
-     *
-     * 
-     */ 
-    public function setUpdated_at($updated_at)
-    {
-        $this->updated_at = $updated_at;        
-    }
+   
 
     /**
      * Get the value of brand_id
@@ -243,8 +169,38 @@ class Product {
      *par son id
      * 
      */ 
-    public function find($id){
-        $sql = 'SELECT * FROM `product` WHERE `id` = ' . $id;
+
+    /**
+     * Get the value of brand_name
+     */ 
+    public function getBrand_name()
+    {
+        return $this->brand_name;
+    }
+    
+    /**
+     * Get the value of type_name
+     */ 
+    public function getType_name()
+    {
+        return $this->type_name;
+    }
+    
+    /**
+     * Get the value of category_name
+     */ 
+    public function getCategory_name()
+    {
+        return $this->category_name;
+    }
+
+    public function find($productId){
+        $sql = "SELECT 
+        `product`.*, `brand`.`name` AS 'brand_name', `category`.`name` AS 'category_name' 
+        FROM `product` 
+        INNER JOIN `brand` ON `product`.`brand_id` = `brand`.`id` 
+        INNER JOIN `category` ON `product`.`category_id` = `category`.`id` 
+        WHERE `product`.`id` = {$productId}";
 
         // récupération de la BDD
         $pdo = Database::getPDO();
@@ -273,5 +229,60 @@ class Product {
         // Renvoie le tableau de Products
         return $products;
     }
+
+    public function findAllByCategory($categoryId){
+        $sql = "SELECT 
+        `product`.*, 
+        `type`.`name` AS 'type_name'
+        FROM `product` 
+        INNER JOIN `type` ON `product`.`type_id` = `type`.`id`
+        WHERE `product`.`category_id` = {$categoryId}
+        ";
+
+        $pdo = Database::getPDO();
+
+        $statement = $pdo->query($sql);
+
+        $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+
+        return $products;
+    }
+
+    public function findAllByBrand($brandId){
+        $sql = "SELECT 
+        `product`.*, 
+        `type`.`name` AS 'type_name'
+        FROM `product` 
+        INNER JOIN `type` ON `product`.`type_id` = `type`.`id`
+        WHERE `product`.`brand_id` = {$brandId}
+        ";
+
+        $pdo = Database::getPDO();
+
+        $statement = $pdo->query($sql);
+
+        $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+
+        return $products;
+    }
+
+    public function findAllByType($typeId){
+        $sql = "SELECT 
+        `product`.*, 
+        `type`.`name` AS 'type_name'
+        FROM `product` 
+        INNER JOIN `type` ON `product`.`type_id` = `type`.`id`
+        WHERE `product`.`type_id` = {$typeId}
+        ";
+
+        $pdo = Database::getPDO();
+
+        $statement = $pdo->query($sql);
+
+        $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+
+        return $products;
+    }
+
 
 }
