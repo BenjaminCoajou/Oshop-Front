@@ -1,11 +1,13 @@
 <?php
 
+namespace Oshop\Models;
+
 class CoreModel {
 
-    private $id;
-    private $name;
-    private $created_at;
-    private $updated_at;
+    protected $id;
+    protected $name;
+    protected $created_at;
+    protected $updated_at;
 
      /**
      * Get the value of id

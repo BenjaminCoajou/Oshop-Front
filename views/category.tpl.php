@@ -1,1 +1,0 @@
-<h1>catégorie pour l'id <?= $viewVars['categoryId']?></h1>

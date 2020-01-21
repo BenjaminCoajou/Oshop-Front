@@ -1,16 +1,11 @@
 <?php
 
+use Oshop\Controllers\MainController;
+use Oshop\Controllers\CatalogController;
+
 require_once __DIR__ . "/../vendor/autoload.php";
 
-require_once __DIR__ . "/../controllers/MainController.class.php";
-require_once __DIR__ . "/../controllers/CatalogController.class.php";
 
-// Chargement du model
-require __DIR__ . '/../models/CoreModel.class.php';
-require __DIR__ . '/../models/Product.class.php';
-
-//  Utilitaire
-require __DIR__ . '/../utils/Database.class.php';
 
 // récupération du pdo pour manipuler la BDD
 //$pdo = Database::getPDO();
@@ -77,7 +72,8 @@ $router->map(
 
 // La fonction match() detecte si une route précedement défini est utilisé dans le navigateur
 $match = $router->match();
-dump($match);
+
+// dump($match);
 
 if( $match === false){
     $mainController = new MainController();
@@ -88,13 +84,13 @@ if( $match === false){
 
 // Afficher la page
 // récupération de la cible de la route
-$target =$match["target"];
+$target = $match["target"];
 
 // récupération du nom de la method
 $nomDelaMethode = $target["method"];
 
 // récupération du nom du controller
-$nomDuController = $target["controller"];
+$nomDuController = "\\Oshop\\Controllers\\" . $target["controller"];
 
 // J'instancie mon controller
 $controller = new $nomDuController();

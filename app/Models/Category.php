@@ -1,5 +1,9 @@
 <?php 
 
+namespace Oshop\Models;
+
+use \Oshop\Utils\Database;
+
 class Category extends CoreModel {
 
     private $subtitle;
@@ -95,7 +99,7 @@ class Category extends CoreModel {
         // j'execute ma requête pour récupérer les Products
         $pdoStatement = $pdo->query($sql);
         // fetchAll avec l'argument FETCH_CLASS renvoie un array qui contient tous mes résultats sous la forme d'objets de la classe spécifiée en 2e argument
-        $categories = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Category');
+        $categories = $pdoStatement->fetchAll(\PDO::FETCH_CLASS, Category :: class);
         
         // Renvoie le tableau de Products
         return $categories;
@@ -104,14 +108,14 @@ class Category extends CoreModel {
     public function findAllForHome() {
         $sql = "SELECT * 
         FROM `category` 
-        WHERE `home_order` > 0 ORDER_BY `home_order`
+        WHERE `home_order` > 0 ORDER BY `home_order`
         ";
 
         $pdo = Database::getPDO();
 
         $statement = $pdo->query($sql);
 
-        $categories = $statement->fetchAll(PDO::FETCH_CLASS, 'Category');
+        $categories = $statement->fetchAll(\PDO::FETCH_CLASS, Category :: class);
 
         return $categories;
     }

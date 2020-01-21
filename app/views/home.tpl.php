@@ -50,11 +50,15 @@
             </div>
           </div>
         <div class="col-lg-4">
-          <div class="card border-0 text-center text-white"><img src="<?= $_SERVER['BASE_URI']?>/assets/images/categ3.jpeg"
+          <div class="card border-0 text-center text-white">
+            <img src="<?= $_SERVER['BASE_URI']?>/assets/images/categ3.jpeg"
               alt="Card image" class="card-img">
             <div class="card-img-overlay d-flex align-items-center">
               <div class="w-100">
-                <h2 class="display-4 mb-4">Cérémonie</h2><a href="category.html" class="btn btn-link text-white">Bien choisir <i class="fa-arrow-right fa ml-2"></i></a>
+                <h2 class="display-4 mb-4">Cérémonie</h2>
+                <a href="category.html" class="btn btn-link text-white">Bien choisir 
+                  <i class="fa-arrow-right fa ml-2"></i>
+                </a>
               </div>
             </div>
           </div>

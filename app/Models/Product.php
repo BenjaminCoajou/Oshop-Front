@@ -1,5 +1,9 @@
 <?php
 
+namespace Oshop\Models;
+
+use \Oshop\Utils\Database;
+
 class Product extends CoreModel {
 
     private $description;
@@ -208,7 +212,7 @@ class Product extends CoreModel {
         // éxécution de la requete
         $statement = $pdo->query($sql);
 
-        $product = $statement->fetchObject('Product');
+        $product = $statement->fetchObject(Product::class);
         //dump($product);
         //exit;
         // Retour de l'objet Product qui contient toutes les données récupérées depuis la BDD
@@ -224,7 +228,7 @@ class Product extends CoreModel {
         // j'execute ma requête pour récupérer les Products
         $pdoStatement = $pdo->query($sql);
         // fetchAll avec l'argument FETCH_CLASS renvoie un array qui contient tous mes résultats sous la forme d'objets de la classe spécifiée en 2e argument
-        $products = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Product');
+        $products = $pdoStatement->fetchAll(\PDO::FETCH_CLASS, Product :: class);
         
         // Renvoie le tableau de Products
         return $products;
@@ -243,7 +247,7 @@ class Product extends CoreModel {
 
         $statement = $pdo->query($sql);
 
-        $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+        $products = $statement->fetchAll(\PDO::FETCH_CLASS, Product :: class);
 
         return $products;
     }
@@ -261,7 +265,7 @@ class Product extends CoreModel {
 
         $statement = $pdo->query($sql);
 
-        $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+        $products = $statement->fetchAll(\PDO::FETCH_CLASS, Product :: class);
 
         return $products;
     }
@@ -279,7 +283,7 @@ class Product extends CoreModel {
 
         $statement = $pdo->query($sql);
 
-        $products = $statement->fetchAll(PDO::FETCH_CLASS, 'Product');
+        $products = $statement->fetchAll(\PDO::FETCH_CLASS, Product :: class);
 
         return $products;
     }

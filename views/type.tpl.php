@@ -1,1 +1,0 @@
-<h1>type pour l'id <?= $viewVars['typeId']?></h1>

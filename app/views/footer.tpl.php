@@ -70,21 +70,17 @@
           <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
             <h6 class="text-uppercase text-dark mb-3">Produits</h6>
             <ul class="list-unstyled">
-              <li> <a href="#" class="text-muted">Chaussures de ville</a></li>
-              <li> <a href="#" class="text-muted">Chaussures de sport</a></li>
-              <li> <a href="#" class="text-muted">Pantoufles</a></li>
-              <li> <a href="#" class="text-muted">Tongs</a></li>
-              <li> <a href="#" class="text-muted">Chaussons</a></li>
+            <?php foreach($viewVars['footerTypeList'] as $type) : ?>
+              <li> <a href="<?= $router->generate('route_type_by_id', ['typeId' => $type->getId()]); ?>" class="text-muted"><?= $type->getName(); ?></a></li>
+              <?php endforeach; ?>
             </ul>
           </div>
           <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
             <h6 class="text-uppercase text-dark mb-3">Marques</h6>
             <ul class="list-unstyled">
-              <li> <a href="#" class="text-muted">oCirage</a></li>
-              <li> <a href="#" class="text-muted">Shossures</a></li>
-              <li> <a href="#" class="text-muted">BOOTstrap</a></li>
-              <li> <a href="#" class="text-muted">Talonette</a></li>
-              <li> <a href="#" class="text-muted">oPompes</a></li>
+              <?php foreach($viewVars['footerBrandList'] as $brand) : ?>
+              <li> <a href="<?= $router->generate('route_brand_by_id', ['brandId' => $brand->getId()]); ?>" class="text-muted"><?= $brand->getName(); ?></a></li>
+              <?php endforeach; ?>
             </ul>
           </div>
           <div class="col-lg-4">

@@ -2,15 +2,15 @@
 
 ## récupérer 5 catégories de la home
 ```sql
-    SELECT * FROM `category` WHERE `home_order` > 0 ORDER_BY `home_order`
+    SELECT * FROM `category` WHERE `home_order` > 0 ORDER BY `home_order`
 ```
 ## récupérer 5 marques du footer
 ```sql
-    SELECT * FROM `brand` WHERE `footer_order` > 0 ORDER_BY `footer_order`
+    SELECT * FROM `brand` WHERE `footer_order` > 0 ORDER BY `footer_order`
 ```
 ## récupérer 5 types du footer
 ```sql
-    SELECT * FROM `type` WHERE `footer_order` > 0 ORDER_BY `footer_order`
+    SELECT * FROM `type` WHERE `footer_order` > 0 ORDER BY `footer_order`
 ```
 ## récupérer les produits d'une categorie
 ```sql

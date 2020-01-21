@@ -1,12 +1,15 @@
 <?php
 
-class Type extends CoreModel{
-    
+namespace Oshop\Models;
+
+use \Oshop\Utils\Database;
+
+class Brand extends CoreModel{
+   
     private $footer_order;
     
 
-    
-
+   
     /**
      * Get the value of footer_order
      */ 
@@ -28,27 +31,13 @@ class Type extends CoreModel{
 
     
 
-    /**
-     * Get the value of update_at
+     /**
+     * Récupère une marque dans la base de données
+     *par son id
+     * 
      */ 
-    public function getUpdate_at()
-    {
-        return $this->update_at;
-    }
-
-    /**
-     * Set the value of update_at
-     *
-     *
-     */ 
-    public function setUpdate_at($update_at)
-    {
-        $this->update_at = $update_at;
-
-    }
-
-    public function find($typeId){
-        $sql = 'SELECT * FROM `type` WHERE `id` = ' . $typeId;
+    public function find($brandId){
+        $sql = 'SELECT * FROM `brand` WHERE `id` = ' . $brandId;
 
         // récupération de la BDD
         $pdo = Database::getPDO();
@@ -56,40 +45,37 @@ class Type extends CoreModel{
         // éxécution de la requete
         $statement = $pdo->query($sql);
 
-        $type = $statement->fetchObject('Type');
-        //dump($product);
-        //exit;
-        // Retour de l'objet Product qui contient toutes les données récupérées depuis la BDD
-        return $type;
+        $brand = $statement->fetchObject('Brand');
+
+        // Retour de l'objet Category qui contient toutes les données récupérées depuis la BDD
+        return $brand;
     }
 
     public function findAll() {
         $sql = '
-            SELECT * FROM `type`
+            SELECT * FROM `brand`
         ';
         // Database::getPDO() me retourne l'objet PDO représentant la connexion à la BDD
         $pdo = Database::getPDO();
         // j'execute ma requête pour récupérer les Products
         $pdoStatement = $pdo->query($sql);
         // fetchAll avec l'argument FETCH_CLASS renvoie un array qui contient tous mes résultats sous la forme d'objets de la classe spécifiée en 2e argument
-        $types = $pdoStatement->fetchAll(PDO::FETCH_CLASS, 'Type');
+        $brands = $pdoStatement->fetchAll(\PDO::FETCH_CLASS, Brand :: class);
         
         // Renvoie le tableau de Products
-        return $types;
+        return $brands;
     }
 
     public function findAllForFooter() {
-        $sql = "SELECT * 
-        FROM `type` 
-        WHERE `footer_order` > 0 ORDER_BY `footer_order`
-        ";
+        $sql = "SELECT * FROM `brand` WHERE `footer_order` > 0 ORDER BY `footer_order`";
 
         $pdo = Database::getPDO();
 
         $statement = $pdo->query($sql);
 
-        $types = $statement->fetchAll(PDO::FETCH_CLASS, 'Type');
+        $brands = $statement->fetchAll(\PDO::FETCH_CLASS, Brand :: class);
 
-        return $types;
+        return $brands;
     }
+
 }

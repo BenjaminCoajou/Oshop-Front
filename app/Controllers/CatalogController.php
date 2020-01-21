@@ -1,6 +1,14 @@
 <?php 
 
-class CatalogController{
+namespace Oshop\Controllers;
+
+use \Oshop\Models\Product;
+use \Oshop\Models\Category;
+use \Oshop\Models\Brand;
+use \Oshop\Models\Type;
+
+
+class CatalogController extends CoreController {
 
     public function category($params){
         $category = new Category();
@@ -46,10 +54,5 @@ class CatalogController{
      }
 
 
-    private function show($viewName, $viewVars = array()) {
-        // $viewVars est disponible dans chaque fichier de vue
-        require_once __DIR__.'/../views/header.tpl.php';
-        require_once __DIR__.'/../views/'.$viewName.'.tpl.php';
-        require_once __DIR__.'/../views/footer.tpl.php';
-      }
+    
 }
