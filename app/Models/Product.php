@@ -235,31 +235,21 @@ class Product extends CoreModel {
     }
 
     public function findAllByCategory($categoryId){
-        $sql = "SELECT 
-        `product`.*, 
-        `type`.`name` AS 'type_name'
-        FROM `product` 
-        INNER JOIN `type` ON `product`.`type_id` = `type`.`id`
-        WHERE `product`.`category_id` = {$categoryId}
-        ";
+        $sql = "SELECT * FROM `product` WHERE `category_id` = {$categoryId}";
 
+        // Database::getPDO() me retourne l'objet PDO représentant la connexion à la BDD
         $pdo = Database::getPDO();
+        // j'execute ma requête pour récupérer les Products
+        $pdoStatement = $pdo->query($sql);
 
-        $statement = $pdo->query($sql);
-
-        $products = $statement->fetchAll(\PDO::FETCH_CLASS, Product :: class);
-
+        // fetchAll avec l'argument FETCH_CLASS renvoie un array qui contient tous mes résultats sous la forme d'objets de la classe spécifiée en 2e argument
+        $products = $pdoStatement->fetchAll(\PDO::FETCH_CLASS, Product::class);
+        // Renvoie le tableau de Products
         return $products;
     }
 
     public function findAllByBrand($brandId){
-        $sql = "SELECT 
-        `product`.*, 
-        `type`.`name` AS 'type_name'
-        FROM `product` 
-        INNER JOIN `type` ON `product`.`type_id` = `type`.`id`
-        WHERE `product`.`brand_id` = {$brandId}
-        ";
+        $sql = "SELECT * FROM `product` WHERE `brand_id` = {$brandId}";
 
         $pdo = Database::getPDO();
 
@@ -271,13 +261,7 @@ class Product extends CoreModel {
     }
 
     public function findAllByType($typeId){
-        $sql = "SELECT 
-        `product`.*, 
-        `type`.`name` AS 'type_name'
-        FROM `product` 
-        INNER JOIN `type` ON `product`.`type_id` = `type`.`id`
-        WHERE `product`.`type_id` = {$typeId}
-        ";
+        $sql = "SELECT * FROM `product` WHERE `type_id` = {$typeId}";
 
         $pdo = Database::getPDO();
 

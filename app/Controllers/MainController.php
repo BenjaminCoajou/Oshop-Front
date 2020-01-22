@@ -11,7 +11,12 @@ class MainController extends CoreController {
 
 // Cette methode permet d'afficher la home et elle va charger le bon template.
  public function home($params = []){
-  $this->show('home');
+
+  $categoryModel = new Category();
+  $categoryToDisplay = $categoryModel->findAllForHome();
+
+  $this->show('home',[
+    "category" => $categoryToDisplay]);
  }
 
 public function legalMentions($params = []){

@@ -5,6 +5,7 @@ namespace Oshop\Controllers;
 use \Oshop\Models\Category;
 use \Oshop\Models\Brand;
 use \Oshop\Models\Type;
+use \Oshop\Models\Product;
 
 class CoreController {
 
@@ -17,10 +18,7 @@ class CoreController {
 
         $typeObject = new Type();
         $viewVars['footerTypeList'] = $typeObject->findAllForFooter();
-        
-        $categoryObject = new Category();
-        $viewVars['homeCategory'] = $categoryObject->findAllForHome();
-
+      
         global $router;
         
         // $viewVars est disponible dans chaque fichier de vue

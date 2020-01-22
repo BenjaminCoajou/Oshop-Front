@@ -1,58 +1,121 @@
-<?php 
+<?php
 
 namespace Oshop\Controllers;
 
 use \Oshop\Models\Product;
-use \Oshop\Models\Category;
 use \Oshop\Models\Brand;
-use \Oshop\Models\Type;
+use Oshop\Models\Category;
+use Oshop\Models\Type;
 
-
+/**
+ * Ce controller est dédié à l'affiche du catalogue produit.
+ */
 class CatalogController extends CoreController {
 
-    public function category($params){
-        $category = new Category();
-        $categoryId = $params['categoryId'];
+    /**
+     * Cette méthode va afficher le template, la vue, des catégories.
+     * 
+     * @param array $param
+     */
+    public function category($params) {
+        // On recupere les parametres extraits de l'URL
+        $idCategory = $params['categoryId'];
 
-        $categoryToDisplay = $category->find($categoryId);
-        $this->show('category',
-         ["categoryId" => $categoryId,
-         "category" => $categoryToDisplay]);
+        // On charge la catégorie depuis la base de donnée
+        $categoryModel = new Category();
+        $categoryToDisplay = $categoryModel->find($idCategory);
+        
+        // Récupérer tous les produits de la catégorie
+        $productModel = new Product();
+        $productsToDisplay = $productModel->findAllByCategory($idCategory);
+
+        $this->show('category', [
+            "category" => $categoryToDisplay,
+            "products" => $productsToDisplay
+        ]);
     }
 
-    public function product($params){
+    /**
+     * Cette méthode va afficher le template, la vue, d'un produit.
+     * 
+     * @param array $param
+     */
+    public function product($params) {
+        // Je créé un instance de mon modele afin d'utiliser sa fonction
+        // find()
         $product = new Product();
-        $productId = $params['productId'];
 
-        $productToDisplay = $product->find($productId);
+
+        // Grâce à cette fonction, je peux récupér un objet de type
+        // Product en donnant simplement l'id du produit
+        $productToDisplay = $product->find($params['productId']);
+        // ici $productToDisplay est un objet de type Product
         
-        $this->show('product', 
-        ["productId" => $productId,
-         "product" => $productToDisplay]);
-     } 
+        $brandId = $productToDisplay->getBrand_id();
 
-     public function type($params){
-        $typeId = $params['typeId'];
-        $type = new Type ();
+        // J'instancie un model de type Brand pour utiliser sa fonction find
+        $brandModel = new Brand();
+        $brandToDisplay = $brandModel->find($brandId);
 
-        $typeToDisplay = $type->find($typeId);
+        // J'instancie un model de type Type pour utiliser sa fonction find
+        $categoryId = $productToDisplay->getCategory_id();
+        $categoryModel = new Category();
+        $categoryToDisplay = $categoryModel->find($categoryId);
 
-       $this->show('type',
-       ["typeId" => $typeId,
-        "type" => $typeToDisplay]);
-     }
+        // On affiche notre template en lui envoyant l'objet Product
+        // qu'on a récupéré
+        $this->show('product', [
+            "product" => $productToDisplay,
+            "brand" => $brandToDisplay,
+            "category" => $categoryToDisplay
+        ]);
+    }
 
-     public function brand($params){
-        $brand = new Brand();
-        $brandId = $params['brandId'];
+    /**
+     * Cette méthode va afficher le template, la vue, d'une marque.
+     * 
+     * @param array $param
+     */
+    public function brand($params) {
 
-        $brandToDisplay = $brand->find($brandId);
+        // On recupere les parametres extraits de l'URL
+        $idBrand = $params['brandId'];
 
-       $this->show('brand',
-       ["brandId" => $brandId,
-        "brand" => $brandToDisplay]);
-     }
+        // On charge la catégorie depuis la base de donnée
+        $brandModel = new Brand();
+        $brandToDisplay = $brandModel->find($idBrand);
+        
+        // Récupérer tous les produits de la catégorie
+        $productModel = new Product();
+        $productsToDisplay = $productModel->findAllByBrand($idBrand);
 
+        $this->show('brand', [
+            "brand" => $brandToDisplay,
+            "products" => $productsToDisplay
+        ]);
+    }
 
-    
+    /**
+     * Cette méthode va afficher le template, la vue, d'un type.
+     * 
+     * @param array $param
+     */
+    public function type($params) {
+       // On recupere les parametres extraits de l'URL
+       $idType = $params['typeId'];
+
+       // On charge la catégorie depuis la base de donnée
+       $typeModel = new Type();
+       $typeToDisplay = $typeModel->find($idType);
+       
+       // Récupérer tous les produits de la catégorie
+       $productModel = new Product();
+       $productsToDisplay = $productModel->findAllByType($idType);
+
+       $this->show('type', [
+           "type" => $typeToDisplay,
+           "products" => $productsToDisplay
+       ]);
+    }
+
 }
