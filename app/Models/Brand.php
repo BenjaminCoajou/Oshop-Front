@@ -45,7 +45,7 @@ class Brand extends CoreModel{
         // éxécution de la requete
         $statement = $pdo->query($sql);
 
-        $brand = $statement->fetchObject('Brand');
+        $brand = $statement->fetchObject(Brand::class);
 
         // Retour de l'objet Category qui contient toutes les données récupérées depuis la BDD
         return $brand;

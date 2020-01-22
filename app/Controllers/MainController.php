@@ -3,6 +3,7 @@
 namespace Oshop\Controllers;
 
 use \Oshop\Models\Product;
+use \Oshop\Models\Category;
 
 // création de la classe MainController
 // elle est instanciée pour gérer l'affichage des différentes parties du site
@@ -10,7 +11,7 @@ class MainController extends CoreController {
 
 // Cette methode permet d'afficher la home et elle va charger le bon template.
  public function home($params = []){
-    $this->show('home');
+  $this->show('home');
  }
 
 public function legalMentions($params = []){

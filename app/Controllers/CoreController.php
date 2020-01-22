@@ -22,7 +22,7 @@ class CoreController {
         $viewVars['homeCategory'] = $categoryObject->findAllForHome();
 
         global $router;
-
+        
         // $viewVars est disponible dans chaque fichier de vue
         require_once __DIR__.'/../views/header.tpl.php';
         require_once __DIR__.'/../views/'.$viewName.'.tpl.php';

@@ -85,7 +85,7 @@ class Category extends CoreModel {
         // éxécution de la requete
         $statement = $pdo->query($sql);
 
-        $category = $statement->fetchObject('Category');
+        $category = $statement->fetchObject(Category::class);
 
         // Retour de l'objet Category qui contient toutes les données récupérées depuis la BDD
         return $category;

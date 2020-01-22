@@ -60,7 +60,7 @@ class Type extends CoreModel{
         // éxécution de la requete
         $statement = $pdo->query($sql);
 
-        $type = $statement->fetchObject('Type');
+        $type = $statement->fetchObject(Type::class);
         //dump($product);
         //exit;
         // Retour de l'objet Product qui contient toutes les données récupérées depuis la BDD
