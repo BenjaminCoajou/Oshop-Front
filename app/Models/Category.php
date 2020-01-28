@@ -1,18 +1,15 @@
-<?php 
+<?php
 
-namespace Oshop\Models;
+namespace OShop\Models;
 
-use \Oshop\Utils\Database;
-
+// CoreModel sera inteprété par PHP comme OShop\Models\CordeModel (à cause du namespace de ce fichier Category.php - namespace Courant)
+// donc OK puisque CoreModel appartient bien à ce Namespace
 class Category extends CoreModel {
 
     private $subtitle;
     private $picture;
     private $home_order;
-    
-
-    
-
+ 
     /**
      * Get the value of subtitle
      */ 
@@ -24,12 +21,13 @@ class Category extends CoreModel {
     /**
      * Set the value of subtitle
      *
-     * 
+     * @return  self
      */ 
     public function setSubtitle($subtitle)
     {
         $this->subtitle = $subtitle;
 
+        return $this;
     }
 
     /**
@@ -43,12 +41,13 @@ class Category extends CoreModel {
     /**
      * Set the value of picture
      *
-     * 
+     * @return  self
      */ 
     public function setPicture($picture)
     {
         $this->picture = $picture;
 
+        return $this;
     }
 
     /**
@@ -62,60 +61,49 @@ class Category extends CoreModel {
     /**
      * Set the value of home_order
      *
-     * 
+     * @return  self
      */ 
     public function setHomeOrder($home_order)
     {
         $this->home_order = $home_order;
 
+        return $this;
     }
 
-   
-    /**
-     * Récupère une categorie dans la base de données
-     *par son id
-     * 
-     */ 
-    public function find($categoryId){
-        $sql = 'SELECT * FROM `category` WHERE `id` = ' . $categoryId;
-
-        // récupération de la BDD
-        $pdo = Database::getPDO();
-
-        // éxécution de la requete
-        $statement = $pdo->query($sql);
-
-        $category = $statement->fetchObject(Category::class);
-
-        // Retour de l'objet Category qui contient toutes les données récupérées depuis la BDD
-        return $category;
-    }
-    public function findAll() {
-        $sql = '
-            SELECT * FROM `category`
-        ';
-        // Database::getPDO() me retourne l'objet PDO représentant la connexion à la BDD
-        $pdo = Database::getPDO();
-        // j'execute ma requête pour récupérer les Products
-        $pdoStatement = $pdo->query($sql);
-        // fetchAll avec l'argument FETCH_CLASS renvoie un array qui contient tous mes résultats sous la forme d'objets de la classe spécifiée en 2e argument
-        $categories = $pdoStatement->fetchAll(\PDO::FETCH_CLASS, Category :: class);
-        
-        // Renvoie le tableau de Products
-        return $categories;
+    public function find($categoryId)
+    {
+         // Je construis ma requete
+         $sql = "
+         SELECT * FROM `category` WHERE `id` = {$categoryId}
+         ";
+ 
+         // Je recupere la connexion à la BDD
+         $pdo = \Database::getPDO();
+ 
+         // J'execute la requete
+         $statement = $pdo->query($sql);
+ 
+         // Je recupère le resultat
+         $category = $statement->fetchObject('\Oshop\Models\Category');
+         
+         // Je retourne l'objet 
+         return $category;
     }
 
-    public function findAllForHome() {
-        $sql = "SELECT * 
-        FROM `category` 
-        WHERE `home_order` > 0 ORDER BY `home_order`
+    public function findAllForHome()
+    {
+        $sql = "
+        SELECT * FROM `category` WHERE `home_order` > 0 ORDER BY `home_order`
         ";
 
-        $pdo = Database::getPDO();
+        // Je recupere la connexion à la BDD
+        $pdo = \Database::getPDO();
 
+        // J'execute la requete
         $statement = $pdo->query($sql);
 
-        $categories = $statement->fetchAll(\PDO::FETCH_CLASS, Category :: class);
+        // on précise à fetchAll le format des résultats
+        $categories = $statement->fetchAll(\PDO::FETCH_CLASS, '\Oshop\Models\Category');
 
         return $categories;
     }

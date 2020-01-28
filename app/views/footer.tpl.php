@@ -70,16 +70,22 @@
           <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
             <h6 class="text-uppercase text-dark mb-3">Produits</h6>
             <ul class="list-unstyled">
-            <?php foreach($viewVars['footerTypeList'] as $type) : ?>
-              <li> <a href="<?= $router->generate('route_type_by_id', ['typeId' => $type->getId()]); ?>" class="text-muted"><?= $type->getName(); ?></a></li>
-              <?php endforeach; ?>
+            <?php foreach ($viewData['footerTypeList'] as $type) : ?>
+              <li>
+                <a href="<?= $router->generate('catalog-type', ['typeId' => $type->getId()]); ?>" class="text-muted"><?= $type->getName(); ?></a>
+              </li>
+            <?php endforeach; ?>
             </ul>
           </div>
           <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
             <h6 class="text-uppercase text-dark mb-3">Marques</h6>
             <ul class="list-unstyled">
-              <?php foreach($viewVars['footerBrandList'] as $brand) : ?>
-              <li> <a href="<?= $router->generate('route_brand_by_id', ['brandId' => $brand->getId()]); ?>" class="text-muted"><?= $brand->getName(); ?></a></li>
+              <?php foreach($viewData['footerBrandList'] as $brand) : ?>
+              <li>
+                <a href="<?= $router->generate('catalog-brand', ['brandId' => $brand->getId()]) ?>" class="text-muted">
+                  <?= $brand->getName(); ?>
+                </a>
+              </li>
               <?php endforeach; ?>
             </ul>
           </div>
@@ -108,13 +114,13 @@
           <div class="col-md-6">
             <ul class="list-inline mb-0 mt-2 mt-md-0 text-center text-md-right">
               <li class="list-inline-item">
-                <img src="<?= $_SERVER['BASE_URI']?>/assets/images/visa.svg" alt="..." class="payment-icon">
+                <img src="<?= $_SERVER['BASE_URI'];?>/assets/images/visa.svg" alt="..." class="payment-icon">
               </li>
               <li class="list-inline-item">
-                <img src="<?= $_SERVER['BASE_URI']?>/assets/images/mastercard.svg" alt="..." class="payment-icon">
+                <img src="<?= $_SERVER['BASE_URI'];?>/assets/images/mastercard.svg" alt="..." class="payment-icon">
               </li>
               <li class="list-inline-item">
-                <img src="<?= $_SERVER['BASE_URI']?>/assets/images/paypal.svg" alt="..." class="payment-icon">
+                <img src="<?= $_SERVER['BASE_URI'];?>/assets/images/paypal.svg" alt="..." class="payment-icon">
               </li>
             </ul>
           </div>
@@ -128,10 +134,10 @@
     document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.24.7'><\/script>".replace("HOST", location.hostname));
 //]]></script>
   <!-- JS -->
-  <script src="<?= $_SERVER['BASE_URI']?>/js/jquery.min.js"></script>
-  <script src="<?= $_SERVER['BASE_URI']?>/js/popper.min.js"></script>
-  <script src="<?= $_SERVER['BASE_URI']?>/js/bootstrap.min.js"></script>
-  <script src="<?= $_SERVER['BASE_URI']?>/js/app.js"></script>
+  <script src="<?= $_SERVER['BASE_URI'];?>/assets/js/jquery.min.js"></script>
+  <script src="<?= $_SERVER['BASE_URI'];?>/assets/js/popper.min.js"></script>
+  <script src="<?= $_SERVER['BASE_URI'];?>/assets/js/bootstrap.min.js"></script>
+  <script src="<?= $_SERVER['BASE_URI'];?>/assets/js/app.js"></script>
 </body>
 
 </html>

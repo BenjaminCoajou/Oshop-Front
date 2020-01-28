@@ -1,121 +1,119 @@
 <?php
 
-namespace Oshop\Controllers;
+namespace OShop\Controllers;
 
-use \Oshop\Models\Product;
-use \Oshop\Models\Brand;
-use Oshop\Models\Category;
-use Oshop\Models\Type;
+// on déclare que ce fichier va utiliser la classe Product qui est définie dans le namespace \OShop\Models
+use \OShop\Models\Product;
+use \OShop\Models\Category;
+use \OShop\Models\Brand;
+use \OShop\Models\Type;
 
-/**
- * Ce controller est dédié à l'affiche du catalogue produit.
- */
 class CatalogController extends CoreController {
 
-    /**
-     * Cette méthode va afficher le template, la vue, des catégories.
-     * 
-     * @param array $param
-     */
-    public function category($params) {
-        // On recupere les parametres extraits de l'URL
-        $idCategory = $params['categoryId'];
+    // page Catégorie
+    // cette méthode a besoin d'un id pour fonctionner
+    // => chercher les données en se basant sur cet id
+    // $params contient les données extraites de l'url par le routeur
+    public function category($params)
+    {
+        // dans $params, je récupère l'id de la catégorie
+        $categoryId = $params['categoryId'];
+        // je récupère aussi le tri demandé s'il existe
+        if (isset($params['sort'])) {
+            $sortBy = $params['sort'];
+        } else {
+            $sortBy = null;
+        }
 
-        // On charge la catégorie depuis la base de donnée
+        // afficher la vue catégorie
+        // Données pour la vue :
+        // Les données de la catégorie courante (pour afficher le titre, le sous titre)
         $categoryModel = new Category();
-        $categoryToDisplay = $categoryModel->find($idCategory);
-        
-        // Récupérer tous les produits de la catégorie
+        $category = $categoryModel->find($categoryId);
+        // Les données de tous les produits qui appartiennent à CETTE catégorie 
         $productModel = new Product();
-        $productsToDisplay = $productModel->findAllByCategory($idCategory);
+        $productList = $productModel->findAllByCategory($categoryId, $sortBy);
 
         $this->show('category', [
-            "category" => $categoryToDisplay,
-            "products" => $productsToDisplay
-        ]);
+            'category' => $category,
+            'productList' => $productList,
+            'sortedBy' => $sortBy
+        ]); 
     }
 
-    /**
-     * Cette méthode va afficher le template, la vue, d'un produit.
-     * 
-     * @param array $param
-     */
-    public function product($params) {
-        // Je créé un instance de mon modele afin d'utiliser sa fonction
-        // find()
-        $product = new Product();
-
-
-        // Grâce à cette fonction, je peux récupér un objet de type
-        // Product en donnant simplement l'id du produit
-        $productToDisplay = $product->find($params['productId']);
-        // ici $productToDisplay est un objet de type Product
-        
-        $brandId = $productToDisplay->getBrand_id();
-
-        // J'instancie un model de type Brand pour utiliser sa fonction find
-        $brandModel = new Brand();
-        $brandToDisplay = $brandModel->find($brandId);
-
-        // J'instancie un model de type Type pour utiliser sa fonction find
-        $categoryId = $productToDisplay->getCategory_id();
-        $categoryModel = new Category();
-        $categoryToDisplay = $categoryModel->find($categoryId);
-
-        // On affiche notre template en lui envoyant l'objet Product
-        // qu'on a récupéré
-        $this->show('product', [
-            "product" => $productToDisplay,
-            "brand" => $brandToDisplay,
-            "category" => $categoryToDisplay
-        ]);
-    }
-
-    /**
-     * Cette méthode va afficher le template, la vue, d'une marque.
-     * 
-     * @param array $param
-     */
-    public function brand($params) {
-
-        // On recupere les parametres extraits de l'URL
-        $idBrand = $params['brandId'];
-
-        // On charge la catégorie depuis la base de donnée
-        $brandModel = new Brand();
-        $brandToDisplay = $brandModel->find($idBrand);
-        
-        // Récupérer tous les produits de la catégorie
+    public function product($params)
+    {
+        // récupérer le produit (un objet Product) en fonction de l'id passé dans $params
         $productModel = new Product();
-        $productsToDisplay = $productModel->findAllByBrand($idBrand);
+        $product = $productModel->find($params['productId']);
+
+        // récupérer la catégorie qui correspond à ce produit pour le fil d'ariane
+        // on utilise l'id de la catégorie définie sur le Product
+        $categoryModel = new Category();
+        $category = $categoryModel->find($product->getCategoryId());
+
+        // déclencher l'affichage à l'aide de la méthode show (à laquelle on passe les données récupérées)
+        $this->show('product', [
+            'product' => $product, // l'objet Product récupéré
+            'category' => $category // l'objet Category Récupéré
+        ]);
+    }
+
+    public function brand($params)
+    {
+        // cette méthode fait sensiblement la même chose que la méthode category() plus haut,
+        // mais les données utilisées sont celles qui concernent la marque
+        $brandId = $params['brandId'];
+
+        // je récupère aussi le tri demandé s'il existe
+        if (isset($params['sort'])) {
+            $sortBy = $params['sort'];
+        } else {
+            $sortBy = null;
+        }
+
+        // afficher la vue brand
+        // Données pour la vue :
+            // Les données de la marque courante (pour afficher le titre)
+            $brandModel = new Brand();
+            $brand = $brandModel->find($brandId);
+            // Les données de tous les produits qui appartiennent à cette marque 
+            $productModel = new Product();
+            $productList = $productModel->findAllByBrand($brandId, $sortBy);
 
         $this->show('brand', [
-            "brand" => $brandToDisplay,
-            "products" => $productsToDisplay
-        ]);
+            'brand' => $brand,
+            'productList' => $productList,
+            'sortedBy' => $sortBy
+        ]); 
     }
 
-    /**
-     * Cette méthode va afficher le template, la vue, d'un type.
-     * 
-     * @param array $param
-     */
-    public function type($params) {
-       // On recupere les parametres extraits de l'URL
-       $idType = $params['typeId'];
+    public function type($params)
+    {
+        // cette méthode fait sensiblement la même chose que les méthodes category() et brand() plus haut,
+        // mais les données utilisées sont celles qui concernent le type
+        $typeId = $params['typeId'];
 
-       // On charge la catégorie depuis la base de donnée
-       $typeModel = new Type();
-       $typeToDisplay = $typeModel->find($idType);
-       
-       // Récupérer tous les produits de la catégorie
-       $productModel = new Product();
-       $productsToDisplay = $productModel->findAllByType($idType);
+        // je récupère aussi le tri demandé s'il existe
+        if (isset($params['sort'])) {
+            $sortBy = $params['sort'];
+        } else {
+            $sortBy = null;
+        }
 
-       $this->show('type', [
-           "type" => $typeToDisplay,
-           "products" => $productsToDisplay
-       ]);
+        // afficher la vue type
+        // Données pour la vue :
+            // Les données du type courant (pour afficher le titre, le sous titre)
+            $typeModel = new Type();
+            $type = $typeModel->find($typeId);
+            // Les données de tous les produits qui appartiennent à CETTE catégorie 
+            $productModel = new Product();
+            $productList = $productModel->findAllByType($typeId, $sortBy);
+
+        $this->show('type', [
+            'type' => $type,
+            'productList' => $productList,
+            'sortedBy' => $sortBy
+        ]); 
     }
-
 }

@@ -2,16 +2,12 @@
     <div class="container">
       <!-- Breadcrumbs -->
       <ol class="breadcrumb justify-content-center">
-        <li class="breadcrumb-item"><a href="<?= $_SERVER['BASE_URI']?>/">Home</a></li>
-        <li class="breadcrumb-item active"><?=$viewVars['type']->getName()?></li>
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active"><?= $viewData['type']->getName() ?></li>
       </ol>
       <!-- Hero Content-->
       <div class="hero-content pb-5 text-center">
-        <h1 class="hero-heading"><?=$viewVars['type']->getName()?></h1>
-        <div class="row">
-          <div class="col-xl-8 offset-xl-2">
-            </div>
-        </div>
+        <h1 class="hero-heading"><?= $viewData['type']->getName() ?></h1>
       </div>
     </div>
   </section>
@@ -27,21 +23,33 @@
             href="#" class="product-grid-header-show ">24 </a><a href="#" class="product-grid-header-show ">Tout </a>
         </div>
         <div class="mb-3 d-flex align-items-center"><span class="d-inline-block mr-1">Trier par</span>
-          <select class="custom-select w-auto border-0">
-            <option value="orderby_0">Defaut</option>
-            <option value="orderby_1">Popularité</option>
-            <option value="orderby_2">Vote</option>
-            <option value="orderby_3">Nouveauté</option>
+        <select class="custom-select w-auto border-0">
+            <option 
+              <?= $viewData['sortedBy'] == null ? 'selected' : '' ?>
+              value="<?= $router->generate('catalog-type', ['typeId' => $viewData['type']->getId(), 'sort' => 'byname']) ?>">Defaut</option>
+            <option 
+              <?= $viewData['sortedBy'] == 'byvote' ? 'selected' : '' ?>
+              value="<?= $router->generate('catalog-type', ['typeId' => $viewData['type']->getId(), 'sort' => 'byvote']) ?>">Popularité</option>
+            <option 
+              <?= $viewData['sortedBy'] == 'bydate' ? 'selected' : '' ?>
+              value="<?= $router->generate('catalog-type', ['typeId' => $viewData['type']->getId(), 'sort' => 'bydate']) ?>">Nouveauté</option>
           </select>
         </div>
       </header>
       <div class="row">
+        <?php 
+            // pour chaque produit de cette liste : 
+            foreach($viewData['productList'] as $product) : 
+                // on prépare le lien vers la page du produit courant généré via le routeur
+                $currentProductLink = $router->generate('catalog-product', ['productId' => $product->getId()]);
+                // on stocke aussi le nom de l'image à afficher
+                $currentProductImage = $_SERVER['BASE_URI'] . '/' . $product->getPicture();
+        ?>
         <!-- product-->
-        <?php foreach($viewVars['products'] as $product) : ?>
         <div class="product col-xl-3 col-lg-4 col-sm-6">
           <div class="product-image">
-            <a href="<?= $router->generate('route_product_by_id', ['productId' => $product->getId()])?>" class="product-hover-overlay-link">
-              <img src="<?= $_SERVER['BASE_URI']?>/<?= $product->getPicture();?>" alt="product" class="img-fluid">
+            <a href="<?= $currentProductLink ?>" class="product-hover-overlay-link">
+              <img src="<?= $currentProductImage ?>" alt="product" class="img-fluid">
             </a>
           </div>
           <div class="product-action-buttons">
@@ -49,14 +57,12 @@
             <a href="detail.html" class="btn btn-dark btn-buy"><i class="fa-search fa"></i><span class="btn-buy-label ml-2">Voir</span></a>
           </div>
           <div class="py-2">
-            <p class="text-muted text-sm mb-1"><?= $product->getType_name();?></p>
-            <h3 class="h6 text-uppercase mb-1"><a href="#" class="text-dark"><?= $product->getName();?></a></h3><span class="text-muted"><?= $product->getPrice();?>€</span>
+            <p class="text-muted text-sm mb-1"><?= $product->getTypeName() ?></p>
+            <h3 class="h6 text-uppercase mb-1"><a href="detail.html" class="text-dark"><?= $product->getName() ?></a></h3><span class="text-muted"><?= $product->getPriceWithCurrency() ?></span>
           </div>
         </div>
-        <?php endforeach ?>
         <!-- /product-->
-       
+        <?php endforeach; ?>
       </div>
-      
     </div>
-  </section> 
+  </section>

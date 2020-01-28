@@ -1,15 +1,10 @@
 <?php
 
-namespace Oshop\Models;
+namespace OShop\Models;
 
-use \Oshop\Utils\Database;
+class Type extends CoreModel {
 
-class Type extends CoreModel{
-    
     private $footer_order;
-    
-
-    
 
     /**
      * Get the value of footer_order
@@ -22,77 +17,49 @@ class Type extends CoreModel{
     /**
      * Set the value of footer_order
      *
-     *
+     * @return  self
      */ 
     public function setFooterOrder($footer_order)
     {
         $this->footer_order = $footer_order;
 
+        return $this;
     }
 
-    
-
-    /**
-     * Get the value of update_at
-     */ 
-    public function getUpdate_at()
+    public function find($typeId)
     {
-        return $this->update_at;
+         // Je construis ma requete
+         $sql = "
+         SELECT * FROM `type` WHERE `id` = {$typeId}
+         ";
+ 
+         // Je recupere la connexion à la BDD
+         $pdo = \Database::getPDO();
+ 
+         // J'execute la requete
+         $statement = $pdo->query($sql);
+ 
+         // Je recupère le resultat
+         $type = $statement->fetchObject('\OShop\Models\Type');
+         
+         // Je retourne l'objet 
+         return $type;
     }
 
-    /**
-     * Set the value of update_at
-     *
-     *
-     */ 
-    public function setUpdate_at($update_at)
+    public function findAllForFooter()
     {
-        $this->update_at = $update_at;
-
-    }
-
-    public function find($typeId){
-        $sql = 'SELECT * FROM `type` WHERE `id` = ' . $typeId;
-
-        // récupération de la BDD
-        $pdo = Database::getPDO();
-
-        // éxécution de la requete
-        $statement = $pdo->query($sql);
-
-        $type = $statement->fetchObject(Type::class);
-        //dump($product);
-        //exit;
-        // Retour de l'objet Product qui contient toutes les données récupérées depuis la BDD
-        return $type;
-    }
-
-    public function findAll() {
-        $sql = '
-            SELECT * FROM `type`
-        ';
-        // Database::getPDO() me retourne l'objet PDO représentant la connexion à la BDD
-        $pdo = Database::getPDO();
-        // j'execute ma requête pour récupérer les Products
-        $pdoStatement = $pdo->query($sql);
-        // fetchAll avec l'argument FETCH_CLASS renvoie un array qui contient tous mes résultats sous la forme d'objets de la classe spécifiée en 2e argument
-        $types = $pdoStatement->fetchAll(\PDO::FETCH_CLASS, Type :: class);
-        
-        // Renvoie le tableau de Products
-        return $types;
-    }
-
-    public function findAllForFooter() {
-        $sql = "SELECT * 
-        FROM `type` 
-        WHERE `footer_order` > 0 ORDER BY `footer_order`
+        $sql = "
+        SELECT * FROM `type` WHERE `footer_order` > 0 ORDER BY `footer_order`
         ";
 
-        $pdo = Database::getPDO();
+        // Je recupere la connexion à la BDD
+        $pdo = \Database::getPDO();
 
+        // J'execute la requete
         $statement = $pdo->query($sql);
 
-        $types = $statement->fetchAll(\PDO::FETCH_CLASS, Type :: class);
+        // on précise à fetchAll le format des résultats
+        $types = $statement->fetchAll(\PDO::FETCH_CLASS, '\OShop\Models\Type');
 
         return $types;
     }

@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="<?= $_SERVER['BASE_URI']?>/css/bootstrap.min.css">
-  <link rel="stylesheet" href="<?= $_SERVER['BASE_URI']?>/css/font-awesome.min.css">
-  <link rel="stylesheet" href="<?= $_SERVER['BASE_URI']?>/css/styles.css">
+  <link rel="stylesheet" href="<?= $_SERVER['BASE_URI'];?>/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?= $_SERVER['BASE_URI'];?>/assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?= $_SERVER['BASE_URI'];?>/assets/css/styles.css">
   <title>oShop</title>
 </head>
 
@@ -26,10 +26,11 @@
           <div class="col-sm-5 d-flex justify-content-end">
             <!-- Currency Dropdown-->
             <div class="dropdown pl-3 ml-0">
-              <a id="currencyDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle topbar-link">EUR</a>
+              <a id="currencyDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle topbar-link"><?= $viewData['currencyList']['currentCurrency']; ?></a>
               <div aria-labelledby="currencyDropdown" class="dropdown-menu dropdown-menu-right">
-                <a href="#" class="dropdown-item text-sm">USD</a>
-                <a href="#" class="dropdown-item text-sm">GBP</a>
+                <?php foreach ($viewData['currencyList']['otherCurrencies'] as $currency) : ?>
+                <a href="<?= $router->generate('change-currency', ['currency' => $currency]) ?>" class="dropdown-item text-sm"><?= $currency; ?></a>
+                <?php endforeach; ?>
               </div>
             </div>
           </div>
@@ -40,14 +41,14 @@
     <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy navbar-light">
       <div class="container-fluid">
         <!-- Navbar Header  -->
-        <a href="<?= $_SERVER['BASE_URI']?>/" class="navbar-brand">oShop</a>
+        <a href="index.html" class="navbar-brand">oShop</a>
         <button type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
           aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right"><i class="fa fa-bars"></i></button>
         <!-- Navbar Collapse -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
           <ul class="navbar-nav mx-auto">
             <li class="nav-item">
-              <a href="<?= $_SERVER['BASE_URI']?>/" class="nav-link active">Home</a>
+              <a href="index.html" class="nav-link active">Home</a>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">Catégories</a>
